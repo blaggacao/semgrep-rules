@@ -8,3 +8,32 @@ rules:
     dynamic content. Avoid it or use safe_eval().
   languages: [python]
   severity: ERROR
+
+- id: require-permission-decorator-on-conversion-methods
+  patterns:
+  - pattern-inside: |
+      class $CLASS(...):
+        ...
+  - pattern: |
+       def $CONVERSION_METHOD(...):
+         ...
+  - pattern-not: |
+      @requires_permission(...)
+      def $CONVERSION_METHOD(...):
+        ...
+  - pattern-not: |
+      @frappe.requires_permission(...)
+      def $CONVERSION_METHOD(...):
+        ...
+  - metavariable-regex:
+      metavariable: '$CONVERSION_METHOD'
+      regex: '^_(from|into)_(.*)$'
+  message: |
+    '$CONVERSION_METHOD' in '$CLASS' crosses doctype boundaries.
+    Explicitly declare its extended security context with @frappe.requires_permission(<doctype>, <perm>).
+  languages: [python]
+  severity: ERROR
+  paths:
+      include:
+        - "*/**/doctype/*"
+

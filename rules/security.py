@@ -4,3 +4,4 @@ def function_name(input):
 
 # ok: frappe-codeinjection-eval
 eval("1 + 1")
+
