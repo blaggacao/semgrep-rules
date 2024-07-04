@@ -140,6 +140,23 @@ rules:
   languages: [python]
   severity: ERROR
 
+- id: frappe-prefer-doctype-caster
+  patterns:
+  - pattern: |
+      def $MAKEFUNCTION(...):
+        ...
+  - metavariable-regex:
+      metavariable: $MAKEFUNCTION
+      regex: "^make_(.*)$"
+  message: |
+      This is an old pattern. Replace '$MAKEFUNCTION' with 'def _into_*(self, doc)' or 'def _from_*(self, doc)' instance conversion methods.
+      Check: https://github.com/frappe/frappe/pull/26991 for the implementation and https://github.com/frappe/erpnext/pull/42160/files for an example.
+  languages: [python]
+  severity: WARNING
+  paths:
+      include:
+        - "*/**/doctype/*"
+
 - id: frappe-print-function-in-doctypes
   pattern: print(...)
   message: |

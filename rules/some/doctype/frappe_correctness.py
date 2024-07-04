@@ -1,0 +1,3 @@
+# ruleid: frappe-avoid-make-functions-prefer-doctype-caster
+def make_sales_invoice(...):
+    ...
