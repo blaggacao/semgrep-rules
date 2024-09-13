@@ -203,3 +203,10 @@ permissions.has_permission.xyz = lambda : True
 from frappe.permissions import has_permission
 
 has_permission.xyz = lambda : True
+
+# ruleid: frappe-use-delete-doc-if-exists
+if frappe.db.exists('Doc Type', {'field': "Foo"}):
+	frappe.db.delete('Doc Type', {'field': "Foo"})
+
+# ok: frappe-use-delete-doc-if-exists
+frappe.delete_doc_if_exists('Doc Type', {'field': "Foo"})
