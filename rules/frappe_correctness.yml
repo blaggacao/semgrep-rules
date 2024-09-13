@@ -348,3 +348,13 @@ rules:
         - "**/test_*.py"
   languages: [python]
   severity: ERROR
+
+- id: frappe-use-delete-doc-if-exists
+  pattern: |
+    if frappe.db.exists($DOCTYPE, $FILTERS):
+      frappe.db.delete($DOCTYPE, $FILTERS)
+  fix: |
+    frappe.delete_doc_if_exists($DOCTYPE, $FILTERS)
+  message: "Use frappe.delete_doc_if_exists() instead of checking existence and deleting separately"
+  languages: [python]
+  severity: ERROR
